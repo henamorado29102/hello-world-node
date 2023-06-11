@@ -1,19 +1,31 @@
-node {
-     def app 
-     stage('clone repository') {
-      checkout scm  
+pipeline {
+  agent any
+  options {
+    buildDiscarder(logRotator(numToKeepStr: '5'))
+  }
+  environment {
+    DOCKERHUB_CREDENTIALS = credentials('dockerhub')
+  }
+  stages {
+    stage('Build') {
+      steps {
+        sh 'docker build -t henamorado/hello-world-node .'
+      }
     }
-     stage('Build docker Image'){
-      app = docker.build("henamoado/hello-world-node")
+    stage('Login') {
+      steps {
+        sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+      }
     }
-     stage('Test Image'){
-       app.inside {
-         sh 'echo "TEST PASSED"'
-      }  
+    stage('Push') {
+      steps {
+        sh 'docker push henamorado/hello-world-node'
+      }
     }
-     stage('Push Image'){
-       docker.withRegistry('https://registry.hub.docker.com', 'git') {            
-       app.push("${env.BUILD_NUMBER}")            
-       app.push("latest")   
-   }
+  }
+  post {
+    always {
+      sh 'docker logout'
+    }
+  }
 }

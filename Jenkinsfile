@@ -1,31 +1,15 @@
-pipeline {
-  agent any
-  options {
-    buildDiscarder(logRotator(numToKeepStr: '5'))
-  }
-  environment {
-    DOCKERHUB_CREDENTIALS = credentials('dockerhub')
-  }
-  stages {
-    stage('Build') {
-      steps {
-        sh 'docker build -t henamorado/hello-world-node .'
-      }
+node {   
+    stage('Clone repository') {
+        git url: 'https://github.com/henamorado29102/hello-world-node.git', branch: 'main'
     }
-    stage('Login') {
-      steps {
-        sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-      }
+    
+    stage('Build image') {
+        dockerImage = docker.build("henamorado/hello-world-node:latest")
     }
-    stage('Push') {
-      steps {
-        sh 'docker push henamorado/hello-world-node'
-      }
-    }
-  }
-  post {
-    always {
-      sh 'docker logout'
-    }
-  }
+    
+    stage('Push image') {
+       withDockerRegistry([ credentialsId: "dockerhub", url: "" ]) {
+        dockerImage.push()
+       }
+    }    
 }

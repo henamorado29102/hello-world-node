@@ -1,15 +1,20 @@
-node {   
-    stage('Clone repository') {
-        git url: 'https://github.com/henamorado29102/hello-world-node.git', branch: 'main'
+pipeline {
+    agent any
+    stages {
+        stage('Build') {
+            steps {
+                echo 'Building..'
+            }
+        }
+        stage('Test') {
+            steps {
+                echo 'Testing..'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                echo 'Deploying....'
+            }
+        }
     }
-    
-    stage('Build image') {
-        dockerImage = docker.build("henamorado/hello-world-node:latest")
-    }
-    
-    stage('Push image') {
-       withDockerRegistry([ credentialsId: "dockerhub", url: "" ]) {
-        dockerImage.push()
-       }
-    }    
 }

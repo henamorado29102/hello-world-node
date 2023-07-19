@@ -3,17 +3,19 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                echo 'Building app..'
+                git url: 'https://github.com/henamorado29102/hello-world-node.git', branch: 'main'
             }
         }
         stage('Test') {
             steps {
-                echo 'Testing app..'
+                dockerImage = docker.build("henamorado/hello-world-node:latest")
             }
         }
         stage('Deploy') {
             steps {
-                echo 'Deploying app....'
+                withDockerRegistry([ credentialsId: "dockerhub", url: "" ]) {
+                    dockerImage.push()
+                }
             }
         }
     }

@@ -5,12 +5,6 @@ pipeline {
         SERVERAPP_CREDENTIALS = credentials('app-server-3.99.183.212')
     }
     stages {
-        stage('Clone Repository') {
-            steps {
-                echo 'Clone Repository..'
-                git url: 'https://github.com/henamorado29102/hello-world-node.git', branch: 'main'
-            }
-        }
         stage('Build image') {
             steps {
                 script{

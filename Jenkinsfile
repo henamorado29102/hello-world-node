@@ -12,7 +12,7 @@ pipeline {
                 }
             }
         }
-        stage('Login Docker Hub') {
+        stage('Publish on Docker Hub') {
             steps {
                 echo 'login docker hub..'
                 sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
@@ -22,7 +22,7 @@ pipeline {
         }
         stage('Deploy to produccion') {
             steps {
-                echo 'execute ssh file on app-server..'
+                echo 'execute sh file on app-server..'
                 sshagent(['app_server_ssh_key']) {
                     sh 'ssh -tt -o StrictHostKeyChecking=no ec2-user@10.0.6.81 sudo sh docker_run.sh'
                 }

@@ -2,7 +2,6 @@ pipeline {
     agent any
     environment {
         DOCKERHUB_CREDENTIALS = credentials('docker-hub-he')
-        SERVERAPP_CREDENTIALS = credentials('app-server-3.99.183.212')
     }
     stages {
         stage('Build image') {
@@ -26,7 +25,7 @@ pipeline {
         }
         stage('Deploy to produccion') {
             steps {
-                sshagent(['app-server-3.99.183.212']) {
+                sshagent(['app_server_ssh_key']) {
                     sh 'ssh -tt -o StrictHostKeyChecking=no ec2-user@10.0.6.81 sudo sh docker_run.sh'
                 }
             }

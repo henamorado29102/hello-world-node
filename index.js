@@ -1,15 +1,14 @@
 const express = require('express')
 const app = express()
 
+app.use(express.static('public'));
+
+
 app.get('/', function (req, res) {
-  res.send("Juena de arco en Cuba [][][][][]   ");
+  res.sendFile(__dirname + '/views/index.html');
 })
 
-app.get('/second', function (req, res) {
-  res.send('add a second end point!!');
-})
-
-app.get('/third', function (req, res) {
-  res.send('add a third end point!!!!');
+app.get('/report', function (req, res) {
+  res.sendFile(__dirname + '/views/report.html');
 })
 app.listen(3000)

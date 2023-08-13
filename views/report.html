@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team Members</title>
+    <!-- Add Font Awesome CSS link -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        .page-content {
+            flex: 1; /* Take remaining vertical space */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start; /* Align content to the top */
+            padding: 20px;
+        }
+        .banner {
+            width: 100%;
+            height: 357px;
+            background-image: url('q.png'); /* Replace with your banner image URL */
+            background-size: cover;
+            background-position: center;
+            margin-bottom: 20px;
+        }
+        .class-name {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .project-name {
+            font-size: 30px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .team-name {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .team-members {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .team-member {
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin: 10px;
+            border-radius: 5px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        .icon {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+        .report {
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin: 10px;
+            border-radius: 5px;
+            max-width: 800px;
+        }
+        .header {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .section {
+            margin-bottom: 20px;
+        }
+        .code {
+            font-family: monospace;
+            white-space: pre-wrap;
+            background-color: #f5f5f5;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="banner"></div>
+    <input type="button" id="go_home" value="Home"> 
+    <div class="report">
+        <div class="header">CI/CD Pipeline Implementation Report</div>
+        <div class="section">
+            <h2>Introduction</h2>
+            <p>
+                This report outlines the design and implementation of a Continuous Integration and Continuous Deployment (CI/CD) pipeline for a Node.js application as part of the "DevOps Fundamentals for Canadian Enterprise" class. The pipeline employs GitHub for version control, Jenkins on AWS for automation, Docker Hub for image storage, and utilizes SSH to run the application on another EC2 instance.
+            </p>
+        </div>
+        <div class="section">
+            <h2>Pipeline Overview</h2>
+            <p>
+                The CI/CD pipeline aims to streamline the process of developing, testing, and deploying a Node.js application through the following steps:
+            </p>
+            <ol>
+                <li>Code pushed to the GitHub repository.</li>
+                <li>Jenkins instance hosted on an EC2 instance will run a job when code changes posted to GitHub are detected.</li>
+                <li>Jenkins clones the code, builds a Docker image, and pushes it to Docker Hub.</li>
+                <li>Jenkins connects via SSH to another EC2 instance to execute an SSH file, which will be responsible for downloading the image and creating a container.</li>
+            </ol>
+        </div>
+        <!-- Additional sections can be added as needed -->
+
+        <!-- Example section for displaying code -->
+        <div class="section">
+            <h2>Implementation Details</h2>
+            <h3>GitHub Repository</h3>
+            <p>
+                GitHub is a for-profit company that offers a cloud-based Git repository hosting service. Essentially, it makes it a lot easier for individuals and teams to use Git for version control and collaboration.
+                The Node.js application source code is hosted in a GitHub private repository. Developers commit changes to this repository, initiating the CI/CD pipeline.
+            </p>
+            <h3>AWS Environment</h3>
+            <p>
+                Amazon Web Services (AWS) is the world's most comprehensive and widely adopted cloud, offering many data center services across the globe. One such service is Amazon Elastic Compute Cloud (Amazon EC2), which provides on-demand, scalable computing power in the cloud. Using Amazon EC2 reduces hardware costs and reduces application development and deployment times.
+                An AWS instance hosts Jenkins for automation and continuous integration; Jenkins is configured to monitor the GitHub repository for changes via webhooks. Upon detecting changes, Jenkins runs a pipeline hosted in the repository. In this instance, Docker will be installed to create the container image.
+                Another EC2 instance will be created to run the Node.js application, this EC2 instance can only be accessed via SSH from the EC2 instance with Jenkins, and it will have Docker installed to download the container image and start the application container.
+            </p>
+            <h3>Docker Hub</h3>
+            <p>
+                Docker Hub is a collaboration tool and a marketplace for community developers, open-source contributors, and independent software vendors (ISVs) to distribute their code publicly. Docker Hub provides a consistent, secure, and trusted experience, making it easy for developers to access necessary software.
+                The container image will be stored in Docker Hub and then downloaded to the EC2 instance that hosts the application. For Jenkins to push the container image to Docker Hub, a token must be created on Docker Hub and stored as a credential in Jenkins.
+            </p>
+            <h3>Jenkins</h3>
+            <p>
+                Jenkins is an open-source server that automates software development's build, test, and deployment parts, making integration easier and reducing continuous delivery times. When code published on GitHub changes, an alert is sent to Jenkins to run a job to clone the master branch using pre-configured credentials since the repository is private. The Jenkins file stored at the project's root contains the CI/CD pipeline instructions.
+            </p>
+            <!-- Display the Jenkins pipeline code -->
+            <h4>Jenkinsfile</h4>
+            <div class="code">
+                <!-- Replace with the actual Jenkins pipeline code -->
+                pipeline {
+                    agent any
+                    environment {
+                        DOCKERHUB_CREDENTIALS = credentials('docker-hub-he')
+                    }
+                    stages {
+                        stage('Build image') {
+                            steps {
+                                script{
+                                    echo 'Buils container image..'
+                                    sh 'docker build -t henamorado/hello-world-node:latest .'
+                                }
+                            }
+                        }
+                        stage('Login Docker Hub') {
+                            steps {
+                                echo 'login docker hub..'
+                                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+                                echo 'push image to docker hub..'
+                                sh 'docker push henamorado/hello-world-node:latest'
+                            }
+                        }
+                        stage('Deploy to produccion') {
+                            steps {
+                                echo 'execute sh file on app-server..'
+                                sshagent(['app_server_ssh_key']) {
+                                    sh 'ssh -tt -o StrictHostKeyChecking=no ec2-user@10.0.6.81 sudo sh docker_run.sh'
+                                }
+                            }
+                        }
+                    }
+                    post {
+                        always {
+                            sh 'docker logout'
+                        }
+                    }
+                }                
+            </div>
+            <p>
+                The pipeline consists of three stages.
+            </p>
+            <ol>
+                <li>Build the container image with the latest code update on GitHub.</li>
+                <li>Authenticate to the docker hub with the credentials previously configured in Jenkins and push the container image.</li>
+                <li>Connect via ssh to the deployment server and run a sh file with instructions to deploy the new container image.</li>
+            </ol>
+            <p>A final step will always be executed in case some step fails, and it is to log out of Docker hub.</p>
+            
+            <h3>Docker_run.sh</h3>
+            <div class="code">
+                #!/bin/bash
+
+                if docker container inspect hello-world-node >/dev/null 2>&1; then
+                docker stop hello-world-node
+                docker rm hello-world-node
+                fi
+
+                docker pull henamorado/hello-world-node
+
+                docker run --name=hello-world-node  -d -p 80:3000 henamorado/hello-world-node
+
+            </div>
+            <ol>
+                <li>Verify the container. If it exists, we stop it and eliminate it.</li>
+                <li>Pull from docker hub the new container image.</li>
+                <li>Run the container with the parameters set in the sh file.</li>
+            </ol>
+            <!-- Additional details can be added as needed -->
+        </div>
+        <!-- Additional sections can be added as needed -->
+    </div>
+    <script>
+        document.getElementById("go_home").onclick = function() {  
+            window.location.href = "/";
+        }; 
+    </script>
+</body>
+</html>

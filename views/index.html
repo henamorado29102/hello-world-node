@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team Members</title>
+    <!-- Add Font Awesome CSS link -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        .page-content {
+            flex: 1; /* Take remaining vertical space */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start; /* Align content to the top */
+            padding: 20px;
+        }
+        .banner {
+            width: 100%;
+            height: 357px;
+            background-image: url('q.png'); /* Replace with your banner image URL */
+            background-size: cover;
+            background-position: center;
+            margin-bottom: 20px;
+        }
+        .class-name {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .project-name {
+            font-size: 30px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .team-name {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .team-members {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .team-member {
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin: 10px;
+            border-radius: 5px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        .icon {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="banner"></div>
+    <div class="page-content">
+        <div class="class-name">DevOps Fundamentals for Canadian Enterprises</div>
+        <div class="project-name">CI/CD final project</div>
+        <div class="team-name">Our Team</div>
+        <div class="team-members">
+            <div class="team-member">
+                <span class="icon">
+                    <i class="fas fa-user"></i>
+                </span>
+                <h2>Abdul Raheem Mohammad</h2>
+                <p>c0888218</p>
+            </div>
+            <div class="team-member">
+                <span class="icon">
+                    <i class="fas fa-user"></i>
+                </span>
+                <h2>Eswar Kumar Mandela</h2>
+                <p>c0886239</p>
+            </div>
+            <div class="team-member">
+                <span class="icon">
+                    <i class="fas fa-user"></i>
+                </span>
+                <h2>Rishi Borisa</h2>
+                <p>c0888186</p>
+            </div>            
+            <div class="team-member">
+                <span class="icon">
+                    <i class="fas fa-user"></i>
+                </span>
+                <h2>Sai Deep Chereddy</h2>
+                <p>c0888014</p>
+            </div>
+            <div class="team-member">
+                <span class="icon">
+                    <i class="fas fa-user"></i>
+                </span>
+                <h2>Henrry Enamorado Dieguez</h2>
+                <p>c0888670</p>
+            </div>
+            <!-- Add more team members here -->
+        </div>
+        <input type="button" id="report" value="View report"> 
+    </div>
+
+    <script>
+        document.getElementById("report").onclick = function() {  
+            window.location.href = "/report";
+        }; 
+    </script>
+</body>
+</html>

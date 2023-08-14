@@ -135,6 +135,30 @@
                 An AWS instance hosts Jenkins for automation and continuous integration; Jenkins is configured to monitor the GitHub repository for changes via webhooks. Upon detecting changes, Jenkins runs a pipeline hosted in the repository. In this instance, Docker will be installed to create the container image.
                 Another EC2 instance will be created to run the Node.js application, this EC2 instance can only be accessed via SSH from the EC2 instance with Jenkins, and it will have Docker installed to download the container image and start the application container.
             </p>
+            <h3>Docker</h3>
+            <p>
+                Docker software allows you to build, test, and deploy applications quickly. Docker packages software into standardized units called containers that include everything needed for the software to run, including libraries, system tools, code, and runtime. With Docker, you can rapidly deploy and scale applications in any environment with the confidence that your code will run.
+            </p>
+            <h3>Dockerfile</h3>
+            <p>
+                Docker can build images automatically by reading instructions in a dockerfile. Below is the docker file with the necessary instructions to create the image of our application.
+            </p>
+            <div class="code">
+                FROM node:16
+
+                # Create app directory
+                WORKDIR /usr/src/app
+
+                COPY package*.json ./
+
+                RUN npm install
+
+                COPY . .
+
+                EXPOSE 3000
+                CMD [ "node", "index.js" ]
+            </div>
+            
             <h3>Docker Hub</h3>
             <p>
                 Docker Hub is a collaboration tool and a marketplace for community developers, open-source contributors, and independent software vendors (ISVs) to distribute their code publicly. Docker Hub provides a consistent, secure, and trusted experience, making it easy for developers to access necessary software.

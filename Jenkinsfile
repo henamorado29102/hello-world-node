@@ -24,7 +24,7 @@ pipeline {
             steps {
                 echo 'execute sh file on app-server..'
                 sshagent(['last_test']) {
-                    sh 'ssh -tt -o StrictHostKeyChecking=no ec2-user@10.0.1.140 sudo sh docker_run.sh'
+                    sh 'ssh -tt -o StrictHostKeyChecking=no ec2-user@10.0.1.140 sudo sh run_docker.sh'
                 }
             }
         }

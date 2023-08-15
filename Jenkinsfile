@@ -23,8 +23,8 @@ pipeline {
         stage('Deploy to produccion') {
             steps {
                 echo 'execute sh file on app-server..'
-                sshagent(['app_server_ssh_key']) {
-                    sh 'ssh -tt -o StrictHostKeyChecking=no ec2-user@10.0.6.81 sudo sh docker_run.sh'
+                sshagent(['last_test']) {
+                    sh 'ssh -tt -o StrictHostKeyChecking=no ec2-user@10.0.1.140 sudo sh docker_run.sh'
                 }
             }
         }

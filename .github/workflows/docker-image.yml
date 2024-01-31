@@ -26,5 +26,21 @@ jobs:
         docker build -t $DOCKER_IMAGE .
         docker push $DOCKER_IMAGE
 
+    - name: Set up Azure CLI
+      uses: azure/cli@v1
+      with:
+        azcliversion: 2.0.72
+
+    - name: Login to Azure Container Registry
+      run: |
+        az acr login --name containerregistrystudy
+
+    - name: Tag and Push Docker Image to Azure Container Registry
+      env:
+        AZURE_REGISTRY: containerregistrystudy.azurecr.io
+      run: |
+        docker tag $DOCKER_IMAGE $AZURE_REGISTRY/$DOCKER_IMAGE
+        docker push $AZURE_REGISTRY/$DOCKER_IMAGE
+
 
 
